@@ -10,6 +10,8 @@
 #define BOARD_SIZE (BOARD_WIDTH * BOARD_HEIGHT)
 
 #define BOARD_SET(x, y) board[((y)*BOARD_WIDTH) + (x)] = 1
+#define BOARD_UNSET(x, y) board[((y)*BOARD_WIDTH) + (x)] = 0
+#define BOARD_TOGGLE(x, y) (board[((y)*BOARD_WIDTH) + (x)]) ? (BOARD_UNSET(x, y)) : (BOARD_SET(x, y))
 
 #define BOARD_GLIDER(x, y)   \
     BOARD_SET(x - 1, y + 0); \
@@ -119,8 +121,10 @@ int main() {
 
 #ifdef CONWAY_PIXEL
 
-void mouse_pressed_cb(int x, int y) {
-    BOARD_SET(x, y);
+void mouse_pressed_cb(int x, int y, PixelMouseButton button) {
+    if (button == PIXEL_MOUSE_BUTTON_LEFT) BOARD_SET(x, y);
+    if (button == PIXEL_MOUSE_BUTTON_RIGHT) BOARD_UNSET(x, y);
+    if (button == PIXEL_MOUSE_BUTTON_MIDDLE) BOARD_TOGGLE(x, y);
     init_sync();
     display();
     pixel_refresh_screen();

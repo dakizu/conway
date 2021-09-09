@@ -85,11 +85,17 @@ int SDL_main(int argc, char **argv) {
                 }
                 if (event.type == SDL_MOUSEBUTTONDOWN) {
                     if (pixel_init_data.mouse_cb) {
+                        PixelMouseButton button;
                         int x, y;
                         SDL_GetMouseState(&x, &y);
+                        if (event.button.button == SDL_BUTTON_LEFT) button = PIXEL_MOUSE_BUTTON_LEFT;
+                        else if (event.button.button == SDL_BUTTON_RIGHT) button = PIXEL_MOUSE_BUTTON_RIGHT;
+                        else if (event.button.button == SDL_BUTTON_MIDDLE) button = PIXEL_MOUSE_BUTTON_MIDDLE;
+                        else button = PIXEL_MOUSE_BUTTON_UNKNOWN;
                         pixel_init_data.mouse_cb(
                             x / pixel_init_data.pixel_scale,
-                            y / pixel_init_data.pixel_scale);
+                            y / pixel_init_data.pixel_scale,
+                            button);
                     }
                 }
             }

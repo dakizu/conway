@@ -1,7 +1,14 @@
 #ifndef PIXEL_H
 #define PIXEL_H
 
-typedef void(*PixelMouseCallback)(int,int);
+typedef enum {
+    PIXEL_MOUSE_BUTTON_LEFT,
+    PIXEL_MOUSE_BUTTON_RIGHT,
+    PIXEL_MOUSE_BUTTON_MIDDLE,
+    PIXEL_MOUSE_BUTTON_UNKNOWN
+} PixelMouseButton;
+
+typedef void(*PixelMouseCallback)(int,int, PixelMouseButton);
 
 /* Initialization data for this library. Returned from pixel_init. */
 typedef struct {
